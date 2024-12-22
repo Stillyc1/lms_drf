@@ -5,6 +5,7 @@ from lms.models import Course, Lesson
 
 
 class User(AbstractUser):
+    username = None
     email = models.EmailField(unique=True)
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
@@ -13,7 +14,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.username
+        return self.email
 
     class Meta:
         verbose_name = 'Пользователь'

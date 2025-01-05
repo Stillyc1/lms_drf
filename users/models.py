@@ -14,7 +14,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.email
+        return f"{self.email}"
 
     class Meta:
         verbose_name = 'Пользователь'
@@ -33,7 +33,7 @@ class Payment(models.Model):
     link = models.URLField(max_length=400, verbose_name="ссылка на оплату", blank=True, null=True)
 
     def __str__(self):
-        return self.user
+        return f"{self.user}"
 
     class Meta:
         verbose_name = 'Оплата'

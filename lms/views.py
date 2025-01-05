@@ -7,6 +7,7 @@ from lms.models import Course, Lesson, SubscriptionCourse
 from lms.paginators import CustomPagination
 from lms.serializers import CourseSerializer, LessonSerializer, SubscriptionCourseSerializer
 from lms.services import SaveOwner
+from lms.tasks import send_mail_receiver
 from users.permissions import IsModerator, IsOwner
 
 
@@ -32,6 +33,15 @@ class CourseViewSet(SaveOwner, viewsets.ModelViewSet):
         context = super().get_serializer_context()
         context['request'] = self.request
         return context
+
+    def partial_update(self, request, *args, **kwargs):
+        course_id = self.get_object().id
+        all_sub_course = SubscriptionCourse.objects.filter(course=course_id)
+
+        if all_sub_course.exists():
+            send_mail_receiver.delay([sub.user.email for sub in all_sub_course])
+
+        return super().partial_update(request=request, *args, **kwargs)
 
 
 class SubscriptionCourseAPIView(generics.ListAPIView):

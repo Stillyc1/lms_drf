@@ -9,9 +9,6 @@ from config.settings import EMAIL_HOST_USER
 from users.models import User
 
 
-# from users.models import User
-
-
 @shared_task
 def send_mail_receiver(email: list):
     """Функция отправки сообщений всем кто подписан на курс, когда курс изменяется"""

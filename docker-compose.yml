@@ -1,0 +1,70 @@
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${NAME}
+      POSTGRES_USER: ${USER}
+      POSTGRES_PASSWORD: ${PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - lms_network
+
+  redis:
+    image: redis:latest
+    networks:
+      - lms_network
+
+  celery:
+    build: .
+    command: poetry run celery -A config worker -l INFO -P eventlet
+    volumes:
+      - .:/lms_drf
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - lms_network
+
+  celery-beat:
+    build: .
+    command: poetry run celery -A config beat -l INFO
+    volumes:
+      - .:/lms_drf
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - lms_network
+
+  lms_drf:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/lms_drf
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=${DEBUG}
+      - DATABASE_URL=postgres://${USER}:${PASSWORD}@postgres:${PORT}/${NAME}
+      - STRIPE_API_KEY=${STRIPE_API_KEY}
+      - EMAIL_BACKEND=${EMAIL_BACKEND}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_USE_TLS=${EMAIL_USE_TLS}
+      - EMAIL_USE_SSL=${EMAIL_USE_SSL}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - lms_network
+
+networks:
+  lms_network:
+
+volumes:
+  postgres_data:

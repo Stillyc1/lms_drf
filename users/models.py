@@ -24,7 +24,7 @@ class User(AbstractUser):
 class Payment(models.Model):
     """Модель оплаты курса/урока."""
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user", verbose_name="пользователь",
-                             default=None)
+                             null=True, blank=True)
     date_pay = models.DateTimeField(verbose_name="Дата оплаты", auto_now_add=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="курс", blank=True, null=True)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name="урок", blank=True, null=True)

@@ -207,3 +207,14 @@ if "test" in sys.argv:
             'NAME': BASE_DIR / 'test_db.sqlite3',
         }
     }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.getenv('NAME'),
+            'USER': os.getenv('USER'),
+            'HOST': os.getenv('HOST'),
+            'PORT': os.getenv('PORT'),
+            'PASSWORD': os.getenv('PASSWORD')
+        }
+    }

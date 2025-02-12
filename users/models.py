@@ -6,7 +6,7 @@ from lms.models import Course, Lesson
 
 class User(AbstractUser):
     username = None
-    email = models.EmailField(unique=True)
+    email = models.EmailField(max_length=255, unique=True)
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
 

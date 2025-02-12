@@ -43,14 +43,12 @@ jobs:
             ${{ runner.os }}-poetry-
 
       - name: Install Poetry
-        shell: pwsh
         run: |
-          iex (curl -sSL https://install.python-poetry.org)
-          echo "$env:USERPROFILE\.local\bin" >> $env:GITHUB_PATH
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH  # Добавление Poetry в PATH
 
       - name: Install dependencies
-        shell: pwsh
-        run: poetry install
+        run: poetry install --no-root  # Установка только необходимых зависимостей
 
       - name: Run migrations
         run: poetry run python manage.py migrate

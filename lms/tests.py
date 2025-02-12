@@ -37,6 +37,7 @@ class LessonTestCase(APITestCase):
                     'picture': None,
                     'description': None,
                     'video': 'https://test.youtube.com/',
+                    'amount': 0,
                     'course': 1,
                     'owner': 1,
                 }
@@ -57,7 +58,8 @@ class LessonTestCase(APITestCase):
 
         self.assertEqual(
             response.json(),
-            {'id': 3, 'title': 'test_lesson_1', 'picture': None, 'description': None, 'video': 'https://youtube.com/',
+            {'id': 3, 'title': 'test_lesson_1', 'picture': None, 'description': None,
+             'video': 'https://youtube.com/', "amount": 0,
              'course': 2, 'owner': 2}
 
         )

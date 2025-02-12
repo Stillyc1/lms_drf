@@ -51,6 +51,8 @@ jobs:
         run: poetry install --no-root  # Установка только необходимых зависимостей
 
       - name: Run migrations
+        env:
+          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
         run: poetry run python manage.py migrate
 
       - name: Run tests

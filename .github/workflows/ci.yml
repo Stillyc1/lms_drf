@@ -50,11 +50,6 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-root  # Установка только необходимых зависимостей
 
-      - name: Run migrations
-        env:
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        run: poetry run python manage.py migrate
-
       - name: Run tests
         run: poetry run python manage.py test
 

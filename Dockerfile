@@ -23,7 +23,7 @@ RUN poetry install --no-root
 COPY . .
 
 # Создаем директорию для медиафайлов
-RUN mkdir -p /lms_drf/media
+RUN mkdir -p /lms_drf/staticfiles && chmod -R 755 /lms_drf/staticfiles
 
 # Открываем порт 8000 для взаимодействия с приложением
 EXPOSE 8000

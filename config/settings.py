@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
+import sys
 from datetime import timedelta
 
 from pathlib import Path
@@ -81,22 +82,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
-
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('NAME'),
-        'USER': os.getenv('USER'),
-        'HOST': os.getenv('HOST'),
-        'PORT': os.getenv('PORT'),
-        'PASSWORD': os.getenv('PASSWORD')
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -198,3 +183,38 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': timedelta(days=1),  # Расписание выполнения задачи (например, каждые 10 минут)
     },
 }
+
+if "test" in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'test_db.sqlite3',
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.getenv('NAME'),
+            'USER': os.getenv('USER'),
+            'HOST': os.getenv('HOST'),
+            'PORT': os.getenv('PORT'),
+            'PASSWORD': os.getenv('PASSWORD')
+        }
+    }
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#         },
+#     },
+# }

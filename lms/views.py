@@ -9,6 +9,15 @@ from lms.serializers import CourseSerializer, LessonSerializer, SubscriptionCour
 from lms.services import SaveOwner
 from lms.tasks import send_mail_receiver
 from users.permissions import IsModerator, IsOwner
+from django.views.generic import ListView
+
+
+class MailingView(ListView):
+    """Класс представления Всех рассылок на главной странице"""
+
+    model = Lesson
+    template_name = "lms/home.html"
+    context_object_name = "lms"
 
 
 class CourseViewSet(SaveOwner, viewsets.ModelViewSet):

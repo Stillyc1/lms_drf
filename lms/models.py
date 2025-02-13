@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Course(models.Model):
-    title = models.CharField(verbose_name='Название')
+    title = models.CharField(max_length=255, verbose_name='Название', blank=True)
     picture = models.ImageField(verbose_name='Превью', blank=True, null=True)
     description = models.TextField(verbose_name='Описание', blank=True, null=True)
     owner = models.ForeignKey('users.User', on_delete=models.SET_NULL, verbose_name="владелец", null=True, blank=True)
@@ -17,10 +17,10 @@ class Course(models.Model):
 
 
 class Lesson(models.Model):
-    title = models.CharField(verbose_name='Название')
+    title = models.CharField(max_length=255, verbose_name='Название')
     picture = models.ImageField(verbose_name='Превью', blank=True, null=True)
     description = models.TextField(verbose_name='Описание', blank=True, null=True)
-    video = models.URLField(verbose_name='ссылка на видео')
+    video = models.URLField(max_length=515, verbose_name='ссылка на видео')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="lesson", verbose_name="курс")
     owner = models.ForeignKey('users.User', on_delete=models.SET_NULL, verbose_name="владелец", null=True, blank=True)
     amount = models.PositiveIntegerField(default=0, verbose_name="сумма покупки", blank=True, null=True)

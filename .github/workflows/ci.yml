@@ -85,8 +85,8 @@ jobs:
       - name: Deploy to Server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/lms_drf_lms_drf_1:${{ github.sha }}
-            docker stop lms_drf_lms_drf_1 || true
-            docker rm lms_drf_lms_drf_1 || true
-            docker run -d --name myapp -p 8000:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/lms_drf_lms_drf_1:${{ github.sha }}
+            sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/lms_drf_lms_drf_1:${{ github.sha }}
+            sudo docker stop lms_drf_lms_drf_1 || true
+            sudo docker rm lms_drf_lms_drf_1 || true
+            sudo docker run -d --name myapp -p 8000:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/lms_drf_lms_drf_1:${{ github.sha }}
           EOF

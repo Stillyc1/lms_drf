@@ -88,5 +88,5 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/lms_drf:${{ github.sha }}
             sudo docker stop lms_drf || true
             sudo docker rm lms_drf || true
-            sudo docker run -d --name lms_drf -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/lms_drf:${{ github.sha }}
+            sudo docker run -d --name lms_drf -p 8080:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/lms_drf:${{ github.sha }}
           EOF
